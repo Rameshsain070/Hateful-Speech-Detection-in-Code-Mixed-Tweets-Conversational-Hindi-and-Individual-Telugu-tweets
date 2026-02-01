@@ -1,0 +1,2 @@
+# Hateful-Speech-Detection-in-Code-Mixed-Tweets-Conversational-Hindi-and-Individual-Telugu-tweets
+The problem of hate speech and offensive language is widespread  on social media. Conversations often mix two or more languages (e.g.,  Hindi-English, Telugu-English), making it difficult to detect  offensive speech.  Code-mixing complicates natural language processing tasks due  to the blending of multiple languages in a single sentence. 
