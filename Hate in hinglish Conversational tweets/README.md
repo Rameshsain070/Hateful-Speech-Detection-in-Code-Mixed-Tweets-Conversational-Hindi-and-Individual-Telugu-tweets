@@ -78,7 +78,7 @@ Tweets are represented as an **ordered sequence of embeddings**:
 └── README.md
 ```
 
-🧪 Models and Experiments
+## 🧪 Models and Experiments
 
 This repository is organized around a simple question:
 
@@ -88,7 +88,7 @@ Instead of focusing on a single architecture, the experiments are designed to co
 
 Broadly, the models fall into three categories.
 
-1️⃣ Embedding-based Models with Classical Classifiers
+### 1️⃣ Embedding-based Models with Classical Classifiers
 
 In this setting, we first convert each tweet (and its conversational context) into fixed-size vector representations using pretrained language models. These embeddings are then fed into traditional machine learning classifiers.
 
@@ -126,10 +126,10 @@ fusion strategy (mean vs weighted)
 classifier capacity
 
 All embedding-based experiments are implemented in:
-bash...
+```bash
 models/embedding_classifiers.py
-...
-2️⃣ End-to-End Transformer Fine-tuning
+```
+### 2️⃣ End-to-End Transformer Fine-tuning
 
 In contrast to the previous setup, this category fine-tunes the entire transformer model directly for hate speech classification.
 
@@ -146,9 +146,10 @@ This setting serves as a strong baseline and helps answer a natural question:
 Do we really need separate fusion strategies, or does end-to-end fine-tuning already capture enough context?
 
 These experiments are implemented in:
-
+```bash
 models/transformer_classifier.py
-3️⃣ Sequence-based Modeling
+```
+### 3️⃣ Sequence-based Modeling
 
 While concatenation and pooling ignore ordering, conversational threads are inherently sequential.
 To explicitly model this structure, we treat each conversation as an ordered sequence:
@@ -159,6 +160,6 @@ Each element in the sequence is represented by a pretrained embedding, and the f
 
 This approach focuses on temporal and contextual flow, rather than collapsing everything into a single vector.
 Sequence-based experiments are implemented in:
-...bash
+```bash
 models/lstm_sequence.py
-...
+```
