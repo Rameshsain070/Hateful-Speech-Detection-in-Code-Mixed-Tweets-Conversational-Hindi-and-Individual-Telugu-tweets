@@ -95,13 +95,7 @@ In this setting, we first convert each tweet (and its conversational context) in
 The motivation here is practical:
 embedding-based pipelines are easier to train, faster to iterate on, and often surprisingly competitive.
 
-Language models used for embeddings:
-
-MuRIL
-
-mBERT
-
-DistilBERT
+MuRIL, mBERT, DistilBERT are used for embeddings:
 
 Context fusion strategies:
 
@@ -109,21 +103,10 @@ Mean pooling: all available context (parent, comment, reply) is averaged
 
 ABC weighting: parent, comment, and reply are assigned different weights
 
-Classifiers evaluated:
+Classifiers evaluated: KNN, SVM, Random Forest
 
-KNN
 
-Linear SVM
-
-Random Forest
-
-This setup allows us to isolate the effect of:
-
-representation quality (which language model)
-
-fusion strategy (mean vs weighted)
-
-classifier capacity
+This setup allows us to isolate the effect of representation quality (which language model), fusion strategy (mean vs weighted) and classifier capacity.
 
 All embedding-based experiments are implemented in:
 ```bash
@@ -134,16 +117,9 @@ models/embedding_classifiers.py
 In contrast to the previous setup, this category fine-tunes the entire transformer model directly for hate speech classification.
 
 Here, the conversational context is handled through input-level concatenation, and the model learns both representation and classification jointly.
+ROBERTa and IndicBERT models are used here
 
-Models evaluated:
-
-RoBERTa (Twitter XLM-R)
-
-IndicBERT
-
-This setting serves as a strong baseline and helps answer a natural question:
-
-Do we really need separate fusion strategies, or does end-to-end fine-tuning already capture enough context?
+This setting serves as a strong baseline and helps answer the need separate fusion strategies, or does end-to-end fine-tuning already capture enough context
 
 These experiments are implemented in:
 ```bash
@@ -163,3 +139,67 @@ Sequence-based experiments are implemented in:
 ```bash
 models/lstm_sequence.py
 ```
+
+
+📈 Evaluation Strategy
+
+All models are evaluated using the same metrics to ensure fair comparison:
+1. Accuracy
+2. Precision, Recall, and F1-score (macro-averaged)
+3. Confusion Matrix
+
+Metric computation and visualization utilities are centralized in:
+```bash
+utils/metrics.py
+```
+
+📊 Dataset Analysis
+
+Before training, basic dataset statistics are computed to better understand the data distribution:
+
+1. class balance
+2. sequence length distribution
+3. number of conversational samples
+These analyses help interpret results and avoid misleading conclusions.
+
+Scripts for dataset inspection and visualization are available in:
+```bash
+preprocessing/analysis/
+```
+
+## 💾 Model Saving and Deployment Notes
+
+All trained models are saved locally after training for downstream use (for example, in a web interface).
+
+Examples:
+
+saved_models/lstm_sequence.pt
+
+saved_models/muril_svm.pkl
+
+saved_models/roberta_transformer/
+
+⚠️ Saved model files are intentionally not included in this repository.
+
+If you are using the accompanying web interface update the model path inside the web application code to point to the locally saved model directory
+
+🚀 Running the Experiments
+
+Once preprocessing is completed, experiments can be run directly from the models directory.
+```bash
+# Sequence-based model
+python models/lstm_sequence.py
+```
+```bash
+# Embedding + classical classifiers
+python models/embedding_classifiers.py
+```
+```bash
+# Transformer fine-tuning
+python models/transformer_classifier.py
+```
+Each script is self-contained and prints evaluation metrics at the end of execution.
+
+## 📝 Notes and Limitations
+-Results may vary depending on preprocessing choices, random seeds, and data splits.
+-Some design decisions (such as sequence length or fusion weights) were chosen for clarity rather than optimality.
