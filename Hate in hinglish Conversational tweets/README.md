@@ -48,12 +48,8 @@ Each tweet in a conversation is embedded separately and then fused using Mean po
 ### 3️⃣ Sequence-based Representation
 Tweets are represented as an **ordered sequence of embeddings**:
 [parent → comment → reply]
+This type of representation is used by sequential models.
 
-
-- Output: `sequence_train.pkl`
-- Used by: **LSTM-based models**
-
----
 
 ## 📁 Repository Structure
 
@@ -80,9 +76,7 @@ Tweets are represented as an **ordered sequence of embeddings**:
 
 ## 🧪 Models and Experiments
 
-This repository is organized around a simple question:
-
-How much does conversational structure and representation choice matter for hate speech detection?
+This repository is organized around how much does conversational structure and representation choice matter for hate speech detection.
 
 Instead of focusing on a single architecture, the experiments are designed to compare different modeling philosophies under a common preprocessing pipeline.
 
@@ -93,7 +87,7 @@ Broadly, the models fall into three categories.
 In this setting, we first convert each tweet (and its conversational context) into fixed-size vector representations using pretrained language models. These embeddings are then fed into traditional machine learning classifiers.
 
 The motivation here is practical:
-embedding-based pipelines are easier to train, faster to iterate on, and often surprisingly competitive.
+- embedding-based pipelines are easier to train, faster to iterate on, and often surprisingly competitive.
 
 MuRIL, mBERT, DistilBERT are used for embeddings:
 
@@ -130,12 +124,13 @@ models/transformer_classifier.py
 While concatenation and pooling ignore ordering, conversational threads are inherently sequential.
 To explicitly model this structure, we treat each conversation as an ordered sequence:
 
-parent → comment → reply
+ - parent → comment → reply
 
 Each element in the sequence is represented by a pretrained embedding, and the full sequence is passed to an LSTM.
 
 This approach focuses on temporal and contextual flow, rather than collapsing everything into a single vector.
 Sequence-based experiments are implemented in:
+
 ```bash
 models/lstm_sequence.py
 ```
@@ -186,20 +181,24 @@ If you are using the accompanying web interface update the model path inside the
 🚀 Running the Experiments
 
 Once preprocessing is completed, experiments can be run directly from the models directory.
+
 ```bash
 # Sequence-based model
 python models/lstm_sequence.py
 ```
+
 ```bash
 # Embedding + classical classifiers
 python models/embedding_classifiers.py
 ```
+
 ```bash
 # Transformer fine-tuning
 python models/transformer_classifier.py
 ```
 Each script is self-contained and prints evaluation metrics at the end of execution.
 
+
 ## 📝 Notes and Limitations
--Results may vary depending on preprocessing choices, random seeds, and data splits.
--Some design decisions (such as sequence length or fusion weights) were chosen for clarity rather than optimality.
+- Results may vary depending on preprocessing choices, random seeds, and data splits.
+- Some design decisions (such as sequence length or fusion weights) were chosen for clarity rather than optimality.
