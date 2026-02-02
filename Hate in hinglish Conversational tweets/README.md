@@ -89,18 +89,10 @@ In this setting, we first convert each tweet (and its conversational context) in
 The motivation here is practical:
 - embedding-based pipelines are easier to train, faster to iterate on, and often surprisingly competitive.
 
-MuRIL, mBERT, DistilBERT are used for embeddings:
-
-Context fusion strategies:
-
-Mean pooling: all available context (parent, comment, reply) is averaged
-
-ABC weighting: parent, comment, and reply are assigned different weights
-
-Classifiers evaluated: KNN, SVM, Random Forest
+MuRIL, mBERT, DistilBERT are used for embeddings. Mean Pooling and ABC weighting are used as fusion techniques. KNN, SVM, Random Forest classifiers are used.
 
 
-This setup allows us to isolate the effect of representation quality (which language model), fusion strategy (mean vs weighted) and classifier capacity.
+This setup allows us to isolate the effect of representation quality (which language model), fusion strategy and classifier capacity.
 
 All embedding-based experiments are implemented in:
 ```bash
@@ -119,6 +111,7 @@ These experiments are implemented in:
 ```bash
 models/transformer_classifier.py
 ```
+
 ### 3️⃣ Sequence-based Modeling
 
 While concatenation and pooling ignore ordering, conversational threads are inherently sequential.
@@ -134,7 +127,6 @@ Sequence-based experiments are implemented in:
 ```bash
 models/lstm_sequence.py
 ```
-
 
 📈 Evaluation Strategy
 
@@ -168,11 +160,11 @@ All trained models are saved locally after training for downstream use (for exam
 
 Examples:
 
-saved_models/lstm_sequence.pt
+- saved_models/lstm_sequence.pt
 
-saved_models/muril_svm.pkl
+- saved_models/muril_svm.pkl
 
-saved_models/roberta_transformer/
+- saved_models/roberta_transformer/
 
 ⚠️ Saved model files are intentionally not included in this repository.
 
