@@ -128,7 +128,7 @@ Sequence-based experiments are implemented in:
 models/lstm_sequence.py
 ```
 
-📈 Evaluation Strategy
+## 📈 Evaluation Strategy
 
 All models are evaluated using the same metrics to ensure fair comparison:
 1. Accuracy
@@ -140,7 +140,7 @@ Metric computation and visualization utilities are centralized in:
 utils/metrics.py
 ```
 
-📊 Dataset Analysis
+## 📊 Dataset Analysis
 
 Before training, basic dataset statistics are computed to better understand the data distribution:
 
@@ -170,7 +170,7 @@ Examples:
 
 If you are using the accompanying web interface update the model path inside the web application code to point to the locally saved model directory
 
-🚀 Running the Experiments
+## 🚀 Running the Experiments
 
 Once preprocessing is completed, experiments can be run directly from the models directory.
 
